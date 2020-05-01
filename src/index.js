@@ -1,5 +1,6 @@
 import "dotenv/config";
 
+import path from "path";
 import express from "express";
 import cors from "cors";
 import logger from "./funcs/logger";
@@ -22,6 +23,8 @@ app.use((req, res, done) => {
 });
 
 app.use("/howard", howardRouter);
+
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.listen(port, () => {
   console.log(`Port ${port} at ${date()}`);
