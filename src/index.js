@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import logger from "./funcs/logger";
 import date from "./funcs/date";
-import howard from "./howard";
+import howardRouter from "./routes/howardRouter";
 
 const port = process.env.PORT || 3002;
 const app = express();
@@ -21,11 +21,6 @@ app.use((req, res, done) => {
   done();
 });
 
-app.get("/howard", async (req, res) => {
-  const quote = await howard("getQuotes", 1);
-  //   console.log(quote[0].text);
-  logger.info(quote);
-  return res.send(quote[0].text);
-});
+app.use("/howard", howardRouter);
 
 app.listen(port, () => logger.info(`Port ${port} at ${date()}`));

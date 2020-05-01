@@ -1,8 +1,32 @@
 import MongoClient from "mongodb";
-import { markov } from "./funcs/markov";
+import { markov, poetize } from "./markov";
 
-export default async (query, argument) => {
-  if (!query) return null;
+/**
+ * could just use array of strings and check
+ * `array.contains(query)`, but down in the switch
+ * black, having `queries-dot-whatever` prevents
+ *  typos or other mistakes (also, it autocompletes)
+ */
+const queries = {
+  getAll: "getAll",
+  getEpisode: "getEpisode",
+  getRandomEpisode: "getRandomEpisode",
+  getQuotes: "getQuotes",
+  searchQuotes: "searchQuotes",
+  getMarkov: "getMarkov",
+  getPoem: "getPoem",
+};
+/**
+ * imported as `howard`
+ *
+ * @export
+ * @param {*} query, an enum of possible lookups on the database
+ * @param {*} argument a variable possibly needed by the query
+ * @returns a string or array of results from the database
+ */
+export default async function (query, argument) {
+  const queryEnum = queries[query];
+  if (!queryEnum) return null;
   // argument sometimes optional (for now)
 
   const client = await MongoClient.connect(process.env.MLAB, {
@@ -64,6 +88,7 @@ export default async (query, argument) => {
   };
 
   const getMarkov = (input) => markov(input);
+  const getPoem = (input) => poetize(input);
 
   // DONT DELETE: useful for re-getting data.txt from time to time
   // const numberOfQuotes = await db
@@ -76,27 +101,30 @@ export default async (query, argument) => {
 
   let returnValue;
   switch (query) {
-    case "getAll":
+    case queries.getAll:
       returnValue = await getAllTextItems();
       break;
-    case "getEpisode":
-      returnValue = await getEpisode(argument);
+    case queries.getEpisode:
+      returnValue = await getEpisode(+argument);
       break;
-    case "getRandomEpisode":
+    case queries.getRandomEpisode:
       returnValue = await getRandomEpisode();
       break;
-    case "getQuotes":
-      returnValue = await getQuotes(argument);
+    case queries.getQuotes:
+      returnValue = await getQuotes(+argument);
       break;
-    case "searchQuotes":
+    case queries.searchQuotes:
       returnValue = await searchQuotes(argument);
       break;
-    case "getMarkov":
+    case queries.getMarkov:
       returnValue = await getMarkov(argument);
+      break;
+    case queries.getPoem:
+      returnValue = await getPoem(argument);
       break;
     default:
       returnValue = "That is not a thing.";
   }
   await client.close();
   return returnValue;
-};
+}
