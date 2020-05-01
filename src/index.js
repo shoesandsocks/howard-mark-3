@@ -23,4 +23,7 @@ app.use((req, res, done) => {
 
 app.use("/howard", howardRouter);
 
-app.listen(port, () => logger.info(`Port ${port} at ${date()}`));
+app.listen(port, () => {
+  console.log(`Port ${port} at ${date()}`);
+  logger.info(`Port ${port} at ${date()}`);
+});

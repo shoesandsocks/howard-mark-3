@@ -1,8 +1,8 @@
 {
   "name": "howard-mark-3",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "howard API, v.3",
+  "main": "./build/main.js",
   "scripts": {
     "dev": "backpack",
     "build": "backpack build",
