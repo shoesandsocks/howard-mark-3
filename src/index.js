@@ -27,6 +27,5 @@ app.use("/howard", howardRouter);
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.listen(port, () => {
-  console.log(`Port ${port} at ${date()}`);
   logger.info(`Port ${port} at ${date()}`);
 });
