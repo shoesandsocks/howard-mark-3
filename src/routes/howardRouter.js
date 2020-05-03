@@ -1,6 +1,7 @@
 import express from "express";
 import howard from "../funcs/howard";
 // import logger from "../funcs/logger";
+import doCoreUpdate from "../funcs/json-to-database";
 
 const howardRouter = express.Router();
 
@@ -14,5 +15,11 @@ howardRouter.post("/", async (req, res) => {
   const howardsReply = await howard(query, argument);
   res.json({ howardsReply });
 });
+
+howardRouter.put("/", async (req, res) =>
+  doCoreUpdate()
+    .then((results) => res.json({ results }))
+    .catch((error) => res.json({ error }))
+);
 
 export default howardRouter;
