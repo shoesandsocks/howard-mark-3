@@ -16,7 +16,7 @@ howardRouter.post("/", async (req, res) => {
   res.json({ howardsReply });
 });
 
-howardRouter.put("/", async (req, res) =>
+howardRouter.get("/core", async (req, res) =>
   doCoreUpdate()
     .then((results) => res.json({ results }))
     .catch((error) => res.json({ error }))
