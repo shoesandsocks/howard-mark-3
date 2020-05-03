@@ -20,7 +20,4 @@ try {
 
 export const markov = (text) => `markoved ${text}`;
 
-export const poetize = (text) => {
-  const poem = rndItem(everything);
-  return `${text}? ${poem}`;
-};
+export const poetize = () => rndItem(everything);
